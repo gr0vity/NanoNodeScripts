@@ -1,9 +1,7 @@
 # NanoNodeScripts (used on Ubuntu 16.04)
 Useful Scripts to setup and manage Representative nodes
 
-My Representative Node:
-
-[xrb_3msc38fyn67pgio16dj586pdrceahtn75qgnx7fy19wscixrc8dbb3abhbw6](http://http://nanorep.club/)
+Representative Node: [xrb_3msc38fyn67pgio16dj586pdrceahtn75qgnx7fy19wscixrc8dbb3abhbw6](http://http://nanorep.club/)
 
 
 ## updateContainer.sh
@@ -28,3 +26,6 @@ Add the following line to the crontab job list:
 
 `30 * * * * /home/{userName}/{pathToTheScript}/updateContainer.sh`
 
+### Log files
+Every new download is logged here : /var/log/cron_nano_docker_updates.txt
+Every cron execution is logged here : /var/log/cron_nano_docker_no_updates.txt
