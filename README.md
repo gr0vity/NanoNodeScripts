@@ -24,7 +24,7 @@ Script that will update your Nano Docker container to the latest version
 
 Add the following line to the crontab job list:
 
-`0,30 * * * * /home/{userName}/{pathToTheScript}/updateContainer.sh`
+`0,30 * * * * /home/{userName}/{pathToTheScript}/updateContainer.sh -n {containerName}`
 
 ### Log files
 
