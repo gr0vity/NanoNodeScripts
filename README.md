@@ -1,7 +1,9 @@
 # NanoNodeScripts (used on Ubuntu 16.04)
 Useful Scripts to setup and manage Representative nodes
 
-[My Rep: xrb_3msc38fyn67pgio16dj586pdrceahtn75qgnx7fy19wscixrc8dbb3abhbw6](http://http://nanorep.club/)
+My Representative Node:
+
+[xrb_3msc38fyn67pgio16dj586pdrceahtn75qgnx7fy19wscixrc8dbb3abhbw6](http://http://nanorep.club/)
 
 
 ## updateContainer.sh
