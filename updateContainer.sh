@@ -1,9 +1,11 @@
+#Set Default Values
 currentDate=$(date +"%d.%m.%Y %H:%M:%S")
 flgUpdate=false
 dockerImage=nanocurrency/nano
-dockerName=$(docker ps -a --format "{{.Image}}\t{{.Names}}" | grep "nanocurrency/nano" | awk '{ print $2}')
+dockerName="nanoNode"
 nanoFolderPath=~
 
+#overwrite Default from script input flags
 while getopts "n:ump:" OPTION
 do
         case $OPTION in
@@ -29,10 +31,10 @@ do
                         ;;
         esac
 done
+##Count docker containers with a nano instance "nanocurrency/nano..."
+#containerCount=$(docker ps | grep "nanocurrency/nano" | awk '{ print $1 }' | wc -l)
 
-dockerId=$(docker ps -a --filter "name=$dockerName" -q | xargs)
-
-if docker pull nanocurrency/nano | grep -q 'Image is up to date' ; then
+if docker pull $dockerImage | grep -q 'Image is up to date' ; then
           echo "No updates available for $dockerName (Container Id: $dockerId)\n"
          else
           flgUpdate=true
@@ -40,8 +42,12 @@ fi
 if $flgUpdate -eq true ;
         then
          echo "Docker will be updated..."
-         docker stop $dockerId
-         docker rm $dockerId
+                 for containerId in $(docker ps | grep "nanocurrency/nano" | awk '{ print $1 }'); do
+                        dockerName=$(docker ps -a --format "{{.Image}}\t{{.Names}}" | grep $dockerImage | awk '{ print $2}')
+                        docker stop $containerId
+                        docker rm $containerId
+                        echo "$containerId Removed"
+                 done
          if ! docker run -d -p 7075:7075/udp -p 7075:7075 -p [::1]:7076:7076 -v $nanoFolderPath:/root --name $dockerName --restart unless-stopped $dockerImage ; then
               docker run -d -p 7075:7075/udp -p 7075:7075 -p 127.0.0.1:7076:7076 -v $nanoFolderPath:/root --name $dockerName --restart unless-stopped $dockerImage
           fi
