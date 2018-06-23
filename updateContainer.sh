@@ -1,4 +1,4 @@
-﻿#Set Default Values
+﻿# Set Default Values
 currentDate=$(date +"%d.%m.%Y %H:%M:%S")
 flgUpdate=false
 dockerImage=nanocurrency/nano
@@ -6,7 +6,7 @@ dockerName="nanoNode"
 branchName=""
 nanoFolderPath=~
 
-#overwrite Default from script input flags
+# overwrite Default from script input flags
 while getopts "n:uv:p:" OPTION
 do
         case $OPTION in
@@ -41,14 +41,14 @@ if docker pull $dockerImage | grep -q 'Image is up to date' ; then
 else
           flgUpdate=true
 fi
-if [ $(docker ps -a | grep $dockerImage | wc -l) -eq "0"]; then 
+if [ $(docker ps -a | grep -w "$dockerImage" | wc -l) -eq "0" ]; then 
 	flgUpdate=true
 fi
 if $flgUpdate -eq true ;
           then
           echo "Docker will be updated..."
 				 #Remove nano container from the same branch
-                 for containerId in $(docker ps -a | grep $dockerImage | awk '{ print $1 }'); do
+                 for containerId in $(docker ps -a | grep -w "$dockerImage" | awk '{ print $1 }'); do
                         #dockerName=$(docker ps -a --format "{{.Image}}\t{{.Names}}" | grep $dockerImage | awk '{ print $2}')
                         docker stop $containerId
                         docker rm $containerId
