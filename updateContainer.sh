@@ -38,17 +38,25 @@ done
 
 if docker pull $dockerImage | grep -q 'Image is up to date' ; then
           echo "No updates available for $dockerName (Container Id: $dockerId)\n"
-         else
+else
           flgUpdate=true
+fi
+if [ $(docker ps -a | grep $dockerImage | wc -l) -eq "0"]; then 
+	flgUpdate=true
 fi
 if $flgUpdate -eq true ;
           then
           echo "Docker will be updated..."
+				 #Remove nano container from the same branch
                  for containerId in $(docker ps -a | grep $dockerImage | awk '{ print $1 }'); do
-                        dockerName=$(docker ps -a --format "{{.Image}}\t{{.Names}}" | grep $dockerImage | awk '{ print $2}')
+                        #dockerName=$(docker ps -a --format "{{.Image}}\t{{.Names}}" | grep $dockerImage | awk '{ print $2}')
                         docker stop $containerId
                         docker rm $containerId
                         echo "$containerId Removed"
+                 done
+				 #Stop other Nano Containers
+				 for containerId in $(docker ps -a | grep "nanocurrency/nano" | awk '{ print $1 }'); do
+                        docker stop $containerId
                  done
           if ! docker run -d -p 7075:7075/udp -p 7075:7075 -p [::1]:7076:7076 -v $nanoFolderPath:/root --name $dockerName$branchName --restart unless-stopped $dockerImage ; then
                docker run -d -p 7075:7075/udp -p 7075:7075 -p 127.0.0.1:7076:7076 -v $nanoFolderPath:/root --name $dockerName$branchName --restart unless-stopped $dockerImage
