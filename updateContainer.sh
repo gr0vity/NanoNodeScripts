@@ -1,4 +1,4 @@
-﻿Set Default Values
+﻿#Set Default Values
 currentDate=$(date +"%d.%m.%Y %H:%M:%S")
 flgUpdate=false
 dockerImage=nanocurrency/nano
