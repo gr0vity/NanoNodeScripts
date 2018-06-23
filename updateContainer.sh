@@ -37,7 +37,7 @@ done
 #containerCount=$(docker ps | grep "nanocurrency/nano" | awk '{ print $1 }' | wc -l)
 
 if docker pull $dockerImage | grep -q 'Image is up to date' ; then
-          echo "No updates available for $dockerName (Container Id: $dockerId)\n"
+          echo "No updates available for $dockerName (Container Id: $dockerImage)\n"
 else
           flgUpdate=true
 fi
